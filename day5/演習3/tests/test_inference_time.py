@@ -10,20 +10,23 @@ from sklearn.pipeline import Pipeline
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "../models/titanic_model.pkl")
 DATA_PATH = os.path.join(os.path.dirname(__file__), "../data/Titanic.csv")
 
+
 @pytest.fixture
 def sample_data():
     """テスト用データセットを読み込む"""
     return pd.read_csv(DATA_PATH)
+
 
 @pytest.fixture
 def load_model():
     """学習済みモデルを読み込む"""
     if not os.path.exists(MODEL_PATH):
         pytest.skip("モデルファイルが存在しないためスキップします")
-    
+
     with open(MODEL_PATH, "rb") as f:
         model = pickle.load(f)
     return model
+
 
 def test_model_inference_time(load_model, sample_data):
     """モデルの推論時間を検証"""
